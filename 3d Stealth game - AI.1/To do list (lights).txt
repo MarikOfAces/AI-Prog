@@ -1,0 +1,8 @@
+Create a light (Anything but directional)
+Add lightlevel variable to player
+Scan around player for lights with tag 'Light' (static lights, on walls not moving)
+if you find one, read in (lightlevel + distance (vector3.distance(light.transform, player.transform,x))
+-some sort of calculation 
+make it so guard can read this new player variable
+if guard to player < light level 
+see player?

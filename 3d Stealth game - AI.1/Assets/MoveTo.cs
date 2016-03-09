@@ -96,7 +96,7 @@ public class MoveTo : customTimer {
 
     bool canHearPlayer ()
     {
-       // noiseLevel = pMove.        //noiseLevel = playerMovement.noise;
+        //noiseLevel = pMove.        //noiseLevel = playerMovement.noise;
         //print(pMove.Noise);
         //if (goal == null)
             //playerDist = noiseLevel + 1;
@@ -108,17 +108,21 @@ public class MoveTo : customTimer {
         //print("FUqUUnity");
         //print(pMove.Noise);
         //print(playerDist);
-        noiseLevel = pMove.Noise;
-        if (pMove.Noise > playerDist)
+        if (pMove.Noise >= 1)
         {
-            print("can hear player");
-            return true;
+            noiseLevel = (pMove.Noise/ Mathf.Pow((playerDist/10),2));
+            if (noiseLevel > playerDist)
+            {
+                print("can hear player");
+                return true;
+            }
+            else
+            {
+                print("can't hear player");
+                return false;
+            }
         }
-        else
-        {
-           print("can't hear player");
-            return false;
-        }
+        return false;
            
     }
 
@@ -279,9 +283,15 @@ public class MoveTo : customTimer {
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
         if (goal == null)
             return;
-        agent.SetDestination(goal.position);
+        //agent.SetDestination(goal.position);
+        agent.SetDestination(generatePositions(generatePositions(goal.position)));
+    }
 
-
+    Vector3 generatePositions(Vector3 generatePosTemp)
+    {
+        Vector3 tempPos = Random.insideUnitSphere*10;
+        tempPos += generatePosTemp;
+        return tempPos;
     }
     void guardAttack()
     {
