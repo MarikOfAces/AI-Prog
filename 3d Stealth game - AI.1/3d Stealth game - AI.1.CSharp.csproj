@@ -68,14 +68,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\HideZone.cs" />
-    <Compile Include="Assets\LightDetection.cs" />
-    <Compile Include="Assets\MoveTo.cs" />
-    <Compile Include="Assets\PlayerMovement.cs" />
-    <Compile Include="Assets\buttonScript.cs" />
-    <Compile Include="Assets\customTimer.cs" />
-    <Compile Include="Assets\eliteController.cs" />
-    <Compile Include="Assets\playerMovementController.cs" />
+    <Compile Include="Assets\Level-Menu\GUIMainMenu.cs" />
+    <Compile Include="Assets\Scripts\AI\MoveTo.cs" />
+    <Compile Include="Assets\Scripts\AI\eliteController.cs" />
+    <Compile Include="Assets\Scripts\AI\rangedController.cs" />
+    <Compile Include="Assets\Scripts\LightDetection.cs" />
+    <Compile Include="Assets\Scripts\Player\HideZone.cs" />
+    <Compile Include="Assets\Scripts\Player\InGameMenu.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\Player\buttonScript.cs" />
+    <Compile Include="Assets\Scripts\Player\playerMovementController.cs" />
+    <Compile Include="Assets\Scripts\customTimer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
