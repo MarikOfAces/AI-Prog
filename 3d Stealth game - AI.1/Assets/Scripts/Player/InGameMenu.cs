@@ -13,7 +13,6 @@ public class InGameMenu : MonoBehaviour
     {
         pauseEnabled = false;
         Time.timeScale = 1;
-        AudioListener.volume = GUIMainMenu.currentVolume;
         AudioListener.pause = false;
     }
 
@@ -24,15 +23,13 @@ public class InGameMenu : MonoBehaviour
             if (pauseEnabled == true)
             {
                 pauseEnabled = false;
-                Time.timeScale = 1;
-                AudioListener.volume = GUIMainMenu.currentVolume;
+                Time.timeScale = 1;              
                 AudioListener.pause = false;
             }
 
             else if (pauseEnabled == false)
             {
                 pauseEnabled = true;
-                AudioListener.volume = GUIMainMenu.currentVolume;
                 AudioListener.pause = true;
                 Time.timeScale = 0;
             }
