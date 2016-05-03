@@ -130,11 +130,14 @@ public class UIDisplay : MonoBehaviour {
         {
             GUI.Label(new Rect((Screen.width / 2) - 75, 10, 140, 20), "Objects in Possession:");
 
-            if (StealObjectScript.isObjectTaken)
+            if (StealObjectScript.isObjectTaken && GUIMainMenu.stealGameMode)
             {
-                //Objective Completed
-                GUI.Label(new Rect((Screen.width / 2) - 62, (Screen.height / 2) - 200, 124, 20), "Objective Completed");
                 GUI.Label(new Rect((Screen.width / 2) - 75, 30, 140, 20), "1x Stealable Object");
+            }
+            if (ExitZone.objectiveCompleted)
+            {
+                GUI.Label(new Rect((Screen.width / 2) - 75, (Screen.height / 2), 140, 20), "Objective Completed");
+                GUI.Label(new Rect((Screen.width / 2) - 75, (Screen.height / 2) + 100, 140, 20), "Ending Game in " + (int) ExitZone.endGameTimer);
             }
         }
     }

@@ -17,10 +17,13 @@ public class GameModeSelected : MonoBehaviour {
         if (GUIMainMenu.stealGameMode && StealObjectScript.isObjectTaken == false)
         {
             stealableObject.SetActive(true);
+            GUIMainMenu.escortGameMode = false;
         }
         if (GUIMainMenu.escortGameMode)
         {
             escortObject.SetActive(true);
+            GUIMainMenu.stealGameMode = false;
         }
+
     }
 }
