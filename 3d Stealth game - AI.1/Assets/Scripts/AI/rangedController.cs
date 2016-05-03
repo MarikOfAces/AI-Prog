@@ -31,81 +31,20 @@ public class rangedController : MoveTo{
         lookDist = 20.0f;
         guardDmg = -5;
 
+        agent.stoppingDistance = 10.0f;
+
         guardWanders = false;
+
+        ranged = true;
         //if(PlayerSpawner.playerInst)
         //pMove = PlayerSpawner.playerInst.GetComponent<PlayerController>();
 
 
     }
 
-    void guardAttack()
-    {
-        if (goal == null)
-        {
-            isAttacking = false;
-        }
-        else
-        {
-            transform.LookAt(goal.position);                    //Look at our players position
-            NavMeshAgent agent = GetComponent<NavMeshAgent>();
-            agent.destination = transform.position;                  //Set our path destination to the players position
-            print("Archer attacking player");
-
-           if (playerDist > 8.0f)      //If sguard is too far from target to attack, isattacking = false
-            {
-                isAttacking = false;
-            }
-
-            if ((playerDist < 7.0f) && (!isAttacking)) //If guard is near player and not attacking, start attacking
-            {
-                isAttacking = true;
-                agent.Stop();
-                //atkStart = Time.time;
-            }
-            else
-            {
-                isAttacking = false;
-            }
-
-        }
-
-        if (isAttacking)    //If guard is attacking, do attack and update player Hp every 3 seconds.
-        {
-            
-           // atkTime = Time.time;
-         
-                print("Ranged Attack!");
-                //pMove.updatePlayerHp(guardDmg);
-                //print(guardDmg);
-                //atkStart = Time.time;
-                isAttacking = false;
-           
-        }
-
-        if (attackDebug == true)                            
-        {
-            startTime = currentTime;
-        }
-        if (canSeePlayer())                                    
-        {
-            //print("can see player");
-            startTime = Time.time;
-            currentTime = Time.time;
-        }
-        else
-        {
-            //print("cant see player");
-            currentTime = Time.time;
-            if ((startTime + 5.0f) <= currentTime)
-            {
-                hasGoal = false;
-                //guardAI = State.wander;
-                //print("player lost");
 
 
-            }
-        }
-    }
+
 }
 
 
