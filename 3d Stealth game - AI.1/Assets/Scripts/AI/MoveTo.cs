@@ -19,6 +19,9 @@ public class MoveTo : customTimer {
     public bool hasGoal = false;
     public bool attackDebug;
 
+    public bool ranged = false;
+
+
     Vector3 raycastUp;
     Vector3 raycastDown;
     Vector3 raycastLeft;
@@ -170,6 +173,7 @@ public class MoveTo : customTimer {
         }
             if (canSeePlayer())   
             {
+
                 guardAI = State.Attack;
             }
             else if (canHearPlayer())      
@@ -250,16 +254,28 @@ public class MoveTo : customTimer {
             agent.destination = goal.position;                 
             print("attacking player");
 
-            if (playerDist > 5.0f)      
+            if (playerDist > 5.0f && ranged == false)      
             {
                 isAttacking = false;
             }
 
-            if ((playerDist < 4.0f) && (!isAttacking))  
+            if ((playerDist < 4.0f && ranged == false) && (!isAttacking))  
             {
                 isAttacking = true;
                 atkStart = Time.time;
             }
+
+            if (playerDist > 15.0f && ranged == true)
+            {
+                isAttacking = false;
+            }
+
+            if ((playerDist < 11.0f && ranged == true) && (!isAttacking))
+            {
+                isAttacking = true;
+                atkStart = Time.time;
+            }
+
         }
 
         if (isAttacking)   
@@ -282,6 +298,7 @@ public class MoveTo : customTimer {
         }
         if (canSeePlayer())                                    
         {
+
             startTime = Time.time;
             currentTime = Time.time;
         }
