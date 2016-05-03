@@ -7,7 +7,8 @@ public class GUIMainMenu : MonoBehaviour
     public bool isMainMenuGameModes;
     public bool isMainMenuOptions;
 
-    static public float currentVolume = 1.0F;
+    static public bool stealGameMode;
+    static public bool escortGameMode;
 
     public GUISkin mainMenuSkin;
 
@@ -17,7 +18,6 @@ public class GUIMainMenu : MonoBehaviour
         isMainMenuOptions = false;
         isMainMenuGameModes = false;
         Time.timeScale = 1;
-        AudioListener.volume = currentVolume;
     }
 
     void Update()
@@ -64,6 +64,7 @@ public class GUIMainMenu : MonoBehaviour
 
             if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height / 2 - 125, 250, 50), "Steal Object"))
             {
+                stealGameMode = true;
                 Application.LoadLevel(1);
             }
 
@@ -74,6 +75,7 @@ public class GUIMainMenu : MonoBehaviour
 
             if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height / 2 + 25, 250, 50), "Escort"))
             {
+                escortGameMode = true;
                 Application.LoadLevel(1);
             }
 
