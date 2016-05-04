@@ -5,6 +5,7 @@ public class ExitZone : buttonScript {
 
     public GameObject escortObject;
     public GameObject playerObject;
+    public GameObject lastCheckpoint;
 
     public Light illuminateObject;
     bool increaseLight;
@@ -31,9 +32,10 @@ public class ExitZone : buttonScript {
                 StealObjectScript.isObjectTaken = false;
                 GUIMainMenu.escortGameMode = false;
                 GUIMainMenu.stealGameMode = false;
+                GUIMainMenu.escapeGameMode = false;
             }
         }
-        if(StealObjectScript.isObjectTaken || GUIMainMenu.escortGameMode)
+        if(StealObjectScript.isObjectTaken || GUIMainMenu.escortGameMode || CheckpointZone.playerHitLastCheckpoint)
         {
             illuminateExitZone();
         }
@@ -41,21 +43,11 @@ public class ExitZone : buttonScript {
 
     protected override void OnTriggerStay(Collider other)
     {
-        //if (playerMovementController.usePressed)
-        //{
-        //    print("stealPressed");
-
-        //   // isObjectTaken = true;
-
-        //}
-        if (GUIMainMenu.stealGameMode && StealObjectScript.isObjectTaken)
+        if(StealObjectScript.isObjectTaken || (Vector3.Distance(playerObject.transform.position, escortObject.transform.position) <= 5) || CheckpointZone.playerHitLastCheckpoint)
         {
             TriggerAction();
         }
-        if (GUIMainMenu.escortGameMode && (Vector3.Distance(playerObject.transform.position, escortObject.transform.position) <= 5))
-        {
-            TriggerAction();
-        }
+
     }
 
     protected override void TriggerAction()

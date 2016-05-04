@@ -7,8 +7,11 @@ public class GUIMainMenu : MonoBehaviour
     public bool isMainMenuGameModes;
     public bool isMainMenuOptions;
 
+    static public bool noGameMode;
     static public bool stealGameMode;
+    static public bool assassinateGameMode;
     static public bool escortGameMode;
+    static public bool escapeGameMode;
 
     public GUISkin mainMenuSkin;
 
@@ -18,6 +21,12 @@ public class GUIMainMenu : MonoBehaviour
         isMainMenuOptions = false;
         isMainMenuGameModes = false;
         Time.timeScale = 1;
+
+        noGameMode = false;
+        stealGameMode = false;
+        assassinateGameMode = false;
+        escortGameMode = false;
+        escapeGameMode = false;
     }
 
     void Update()
@@ -59,6 +68,7 @@ public class GUIMainMenu : MonoBehaviour
 
             if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height / 2 - 200, 250, 50), "No Objective"))
             {
+                noGameMode = true;
                 Application.LoadLevel(1);
             }
 
@@ -70,6 +80,7 @@ public class GUIMainMenu : MonoBehaviour
 
             if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height / 2 - 50, 250, 50), "Assassination"))
             {
+                assassinateGameMode = true;
                 Application.LoadLevel(1);
             }
 
@@ -81,6 +92,7 @@ public class GUIMainMenu : MonoBehaviour
 
             if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height / 2 + 100, 250, 50), "Complex Escape"))
             {
+                escapeGameMode = true;
                 Application.LoadLevel(1);
             }
 
@@ -89,7 +101,6 @@ public class GUIMainMenu : MonoBehaviour
                 isMainMenu = true;
                 isMainMenuGameModes = false;
             }
-
         }
 
         if (isMainMenuOptions == true)
