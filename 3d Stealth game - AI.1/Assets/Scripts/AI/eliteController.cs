@@ -1,102 +1,123 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class eliteController : MoveTo {
-  
-
-    Vector3 raycastUp;
-    Vector3 raycastDown;
-    Vector3 raycastLeft;
-    Vector3 raycastRight;
-
-      
-    RaycastHit hasHit;
-    NavMeshAgent agent;
-    Ray guardRay;
+public class eliteController : MoveTo
+{
 
 
 
-	// Use this for initialization
-	void Start () {
 
-        guardRay = new Ray(transform.position, transform.forward);
-        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+    // Use this for initialization
+    void Start()
+    {
 
+       // guardRay = new Ray(transform.position, transform.forward);
+
+        noBackup = true;
 
         noiseLevel = 0;
         playerDist = 0;
         WanderRadius = 100.0f;
         lookDist = 15.0f;
         guardDmg = -3;
-    //if(PlayerSpawner.playerInst)
-    //pMove = PlayerSpawner.playerInst.GetComponent<PlayerController>();
+        //if(PlayerSpawner.playerInst)
+        //pMove = PlayerSpawner.playerInst.GetComponent<PlayerController>();
 
-}
-	
-      
-      
-    void guardAttack()
+    }
+
+    void update()
     {
+     // if (noBackup) {
+		//	print ("LOLOLOLOLOL");
+		//	NavMeshAgent agent = GetComponent<NavMeshAgent>();
+		//	agent.destination = barracks.transform.position;
+	//	}
+
+    }
+
+//    void Reinforcement()
+//    {
+//        if (transform.position == barracks.transform.position)
+//        {
+//            NavMeshAgent agent = GetComponent<NavMeshAgent>();
+//            // elite.goal.position = barracks.transform.position;
+//            Instantiate(tempGuard, new Vector3(), Quaternion.identity);
+//            noBackup = false;
+//        }
+//
+//
+//    }
+
+  /*  void guardAttack()
+    {
+        print("GUARD ATTACKNOW1234");
         if (goal == null)
         {
+            print("GOAL IS NULL");
             isAttacking = false;
         }
+        else if (noBackup)
+        {
+            print("no backup");
+            NavMeshAgent agent = GetComponent<NavMeshAgent>();
+            agent.destination = barracks.transform.position;
+        }
+
         else
         {
-            transform.LookAt(goal.position);                    //Look at our players position
+            print("backup");
+            transform.LookAt(goal.position);
             NavMeshAgent agent = GetComponent<NavMeshAgent>();
-            agent.destination = goal.position;                  //Set our path destination to the players position
+            agent.destination = goal.position;
             print("attacking player");
 
-           if (playerDist > 5.0f)      //If sguard is too far from target to attack, isattacking = false
+            if (playerDist > 5.0f)
             {
                 isAttacking = false;
             }
 
-            if ((playerDist < 4.0f) && (!isAttacking)) //If guard is near player and not attacking, start attacking
+            if ((playerDist < 4.0f) && (!isAttacking))
             {
                 isAttacking = true;
-                //atkStart = Time.time;
+                atkStart = Time.time;
+            }
+
+        }
+
+        if (isAttacking)
+        {
+
+            atkTime = Time.time;
+            if ((atkStart + 1.0f) <= atkTime)
+            {
+                print("Attack!");
+                pMove.updatePlayerHp(guardDmg);
+                print(guardDmg);
+                atkStart = Time.time;
+                isAttacking = false;
             }
         }
 
-        if (isAttacking)    //If guard is attacking, do attack and update player Hp every 3 seconds.
-        {
-            
-           // atkTime = Time.time;
-         
-                print("Attack!");
-                //pMove.updatePlayerHp(guardDmg);
-                //print(guardDmg);
-                //atkStart = Time.time;
-                isAttacking = false;
-           
-        }
-
-        if (attackDebug == true)                            
+        if (attackDebug == true)
         {
             startTime = currentTime;
         }
-        if (canSeePlayer())                                    
+        if (canSeePlayer())
         {
-            //print("can see player");
+
             startTime = Time.time;
             currentTime = Time.time;
         }
         else
         {
-            //print("cant see player");
             currentTime = Time.time;
             if ((startTime + 5.0f) <= currentTime)
             {
                 hasGoal = false;
-                //guardAI = State.wander;
-                //print("player lost");
-
-
             }
         }
-    }
+    }*/
+
 }
 
 

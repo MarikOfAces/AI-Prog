@@ -32,6 +32,15 @@ public class MoveTo : customTimer {
     public Vector3 NewTarget;
     NavMeshAgent agent; //?
     Ray guardRay;
+
+	public GameObject tempGuard;
+	
+	public GameObject tempRangedGuard;
+	
+	public GameObject barracks;
+	
+	public bool noBackup;
+	public bool getBackup;
     
     public PlayerMovement pMove;
 
@@ -93,12 +102,12 @@ public class MoveTo : customTimer {
             noiseLevel = (pMove.Noise/ Mathf.Pow((playerDist/10),2));
             if (noiseLevel > playerDist)
             {
-                print("can hear player");
+             //   print("can hear player");
                 return true;
             }
             else
             {
-                print("can't hear player");
+              //  print("can't hear player");
                 return false;
             }
         }
@@ -108,54 +117,57 @@ public class MoveTo : customTimer {
 
    public bool canSeePlayer ()
     {
+		print ("GOT HERE");
         if (Physics.Raycast(transform.position, raycastUp, out hasHit, lookDist) && (hasHit.collider.name == "PlayerCube"))
         {
-            if (LightDetection.playerIlluminated == true)
-            {
-                print("Raycast up hit");
+			//print ("GOT HERE 2");
+            //if (LightDetection.playerIlluminated == true)
+            //{
+              //  print("Raycast up hit");
                 return true;
-            }
-            else { return false; }
+           // }
+           // else { return false; }
         }
 
         else if (Physics.Raycast(transform.position, raycastDown, out hasHit, lookDist) && (hasHit.collider.name == "PlayerCube"))
-        {
-            if (LightDetection.playerIlluminated == true)             
-            {
-                print("Raycast down hit");
+		{//print ("GOT HERE 2");
+           // if (LightDetection.playerIlluminated == true)             
+           // {
+             //   print("Raycast down hit");
                 return true;
-            }
-            else { return false; }
+           // }
+          //  else { return false; }
         }
 
         else if (Physics.Raycast(transform.position, raycastLeft, out hasHit, lookDist) && (hasHit.collider.name == "PlayerCube"))
-        {
-            print("Raycast left hit");
-            if (LightDetection.playerIlluminated == true)
-            {
+		{//print ("GOT HERE 2");
+         //   print("Raycast left hit");
+           // if (LightDetection.playerIlluminated == true)
+          //  {
                 return true;
-            }
-            else { return false; }
+          //  }
+           // else { return false; }
         }
 
         else if (Physics.Raycast(transform.position, raycastRight, out hasHit, lookDist) && (hasHit.collider.name == "PlayerCube"))
-        {
-            print("Raycast right hit");
-            if (LightDetection.playerIlluminated == true)
-            {
+		{print ("GOT HERE 2");
+           // print("Raycast right hit");
+            //if (LightDetection.playerIlluminated == true)
+           // {
+				print("GOT HERE 3");
                 return true;
-            }
-            else { return false; }
+            //}
+           // else { return false; }
         }
 
         else if (Physics.Raycast(transform.position, transform.forward, out hasHit, lookDist) && (hasHit.collider.name == "PlayerCube"))
         {
-            if (LightDetection.playerIlluminated == true)
-            {
-                print("Raycast forward hit");
+           // if (LightDetection.playerIlluminated == true)
+			//{//print ("GOT HERE 2");
+             //   print("Raycast forward hit");
                 return true;
-            }
-            else { return false; }
+          //  }
+         //   else { return false; }
         }
 
         else
@@ -166,20 +178,40 @@ public class MoveTo : customTimer {
 
     void guardGoalUpdate()
     {
+		if (getBackup) {
+			print ("nobackup");
+			NavMeshAgent agent = GetComponent<NavMeshAgent>();
+			agent.destination = barracks.transform.position;
+			//print(Vector3.Distance(transform.position,barracks.transform.position));
+			if (Vector3.Distance(transform.position,barracks.transform.position) < 1.0f)
+			{
+				print ("call reinforce funct");
+				Reinforcement();
+				getBackup = false;
+			}
+		}
         if (goal == null)
         {
-            print("look for goal");
+            //print("look for goal");
             goal = pMove.transform;
         }
             if (canSeePlayer())   
             {
-
-                guardAI = State.Attack;
+				print ("canSeePlayer");
+				print(noBackup);
+					if (noBackup)
+					{
+					getBackup = true;
+					}
+						else
+						{
+		                guardAI = State.Attack;
+						}
             }
             else if (canHearPlayer())      
             {
-                print("canHear run");
-                guardAI = State.Hunt;
+                //print("canHear run");
+                //guardAI = State.Hunt;
             }
     
         else                           
@@ -224,7 +256,7 @@ public class MoveTo : customTimer {
       
     void guardHunt()
     {
-        print("Hunting Player");
+       // print("Hunting Player");
       
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
         if (goal == null)
@@ -239,20 +271,39 @@ public class MoveTo : customTimer {
         return tempPos;
 
     }
+	void Reinforcement()
+	{
+		for (int i = 0; i < 2; i++) 
+		{
+			NavMeshAgent agent = GetComponent<NavMeshAgent> ();
+			// elite.goal.position = barracks.transform.position;
+			print ("before spawn");
+			tempGuard.name = ("Reinforcement " + i);
+			tempGuard.GetComponent<MoveTo>().pMove = gameObject.GetComponent<MoveTo>().pMove;
+			tempGuard.GetComponent<MoveTo>().goal = goal;
+
+			Instantiate (tempGuard, transform.position, Quaternion.identity);
+			//tempGuard.GetComponentInChildren<LightDetection>().player = goal.gameObject;
+			print ("after spawn");
+		}
+		noBackup = false;	
+	}
+
     void guardAttack()
     {
-        print("GUARD ATTACK");
+       // print("GUARD ATTACK");
         if (goal == null)
         {
-            print("GOAL IS NULL");
+          //  print("GOAL IS NULL");
             isAttacking = false;
         }
         else
         {
+			//print ("DOING OUR ELSE");
             transform.LookAt(goal.position);                    
             NavMeshAgent agent = GetComponent<NavMeshAgent>();
             agent.destination = goal.position;                 
-            print("attacking player");
+          //  print("attacking player");
 
             if (playerDist > 5.0f && ranged == false)      
             {
@@ -284,9 +335,9 @@ public class MoveTo : customTimer {
             atkTime = Time.time;
             if ((atkStart + 1.0f) <= atkTime)
             {
-                print("Attack!");
+             //   print("Attack!");
                 pMove.updatePlayerHp(guardDmg);
-                print(guardDmg);
+               // print(guardDmg);
                 atkStart = Time.time;
                 isAttacking = false;
             }
