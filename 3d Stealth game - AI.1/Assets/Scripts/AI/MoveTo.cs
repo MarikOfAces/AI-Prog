@@ -5,6 +5,10 @@ public class MoveTo : customTimer {
     public enum State {wander, Hunt, Attack}
     public State guardAI = State.wander;
 
+	public int Health;
+	public float Stamina;
+
+
 
     public float noiseLevel = 0;
     public float playerDist = 0;
@@ -50,12 +54,13 @@ public class MoveTo : customTimer {
 
 	void Start ()
     {
+		Health = 5;
         guardRay = new Ray(transform.position, transform.forward);
         NavMeshAgent agent = GetComponent<NavMeshAgent>(); 
 	}
 	
 	void Update () {
-
+		GuardDeath ();
         raycastUp = transform.up * 0.8f + transform.forward;
         raycastDown = -transform.up * 0.8f + transform.forward;
         raycastRight = transform.right * 0.8f + transform.forward;
@@ -291,6 +296,7 @@ public class MoveTo : customTimer {
 
     void guardAttack()
     {
+		Vector3.Distance (gameObject.transform.position, goal.gameObject.transform.position);
        // print("GUARD ATTACK");
         if (goal == null)
         {
@@ -310,7 +316,7 @@ public class MoveTo : customTimer {
                 isAttacking = false;
             }
 
-            if ((playerDist < 4.0f && ranged == false) && (!isAttacking))  
+            if ((playerDist < 5.0f && ranged == false) && (!isAttacking))  
             {
                 isAttacking = true;
                 atkStart = Time.time;
@@ -331,11 +337,11 @@ public class MoveTo : customTimer {
 
         if (isAttacking)   
         {
-            
             atkTime = Time.time;
             if ((atkStart + 1.0f) <= atkTime)
             {
              //   print("Attack!");
+
                 pMove.updatePlayerHp(guardDmg);
                // print(guardDmg);
                 atkStart = Time.time;
@@ -362,4 +368,12 @@ public class MoveTo : customTimer {
             }
         }
     }
+
+	void GuardDeath()
+	{
+		if (Health < 1) {
+			Destroy (gameObject);
+		}
+	}
+
 }

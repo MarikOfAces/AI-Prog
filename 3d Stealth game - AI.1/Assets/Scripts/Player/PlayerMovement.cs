@@ -2,9 +2,7 @@
 using System.Collections;
 using System;
 using System.Timers;
-using UnityEngine;
-using System.Collections;
-using System;
+
 public class PlayerMovement : MonoBehaviour {
 	public Rigidbody rb;
 	public float speed;
@@ -17,20 +15,28 @@ public class PlayerMovement : MonoBehaviour {
 	RaycastHit hasHit;
 	Vector3 climbVector;
 
-	float Health;
-	float Stamina;
-	float fallTimer;
-	bool falling;
+	public GameObject cameraPos;
+	public GameObject cameraTarget;
+
+	public float Health;
+	public float Stamina;
+	public float fallTimer;
+	public bool falling;
 
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody>();
 		speed = 0.1f;
+		Health = 30.0f;
+		Stamina = 30.0f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		fallDamage ();
+		playerDeath ();
 		ControllPlayer();
+		//Attack ();
 		Vector3 rayPos = transform.position - new Vector3 (0, 0.5f, 0);
 		Debug.DrawRay(rayPos, transform.forward * 1.0f, Color.black);
 		//Debug.DrawRay(transform.position, -transform.forward * 1.0f, Color.black);
@@ -79,6 +85,7 @@ public class PlayerMovement : MonoBehaviour {
 			//	canClo
 			//}
 		} else {
+			//NORMAL MOVEMENT
 			gameObject.GetComponent<Rigidbody>().useGravity = true;
 			float moveHorizontal = Input.GetAxis ("Horizontal");
 			float moveVertical = Input.GetAxis ("Vertical");
@@ -92,11 +99,26 @@ public class PlayerMovement : MonoBehaviour {
 			//print ("Normal Movement");
 			float rotY = Input.GetAxis ("Mouse X") * mouseSensitivity;
 			transform.Rotate (0, rotY, 0);
+			float rotX = Input.GetAxis ("Mouse Y") * mouseSensitivity;
+			float camSensitivity = 0.1f;
+			float movementLimit = 5.0f;
+			//if(Vector3.Distance(cameraPos.transform.position, cameraTarget.transform.position) < (movementLimit)){
+				//print(rotX);
+				//GetComponentInChildren<Camera>().transform.Translate(new Vector3(0,0,1)*rotX*mouseSensitivity* camSensitivity);
+				//GetComponentInChildren<Camera>().transform.Translate
+			//}
+//			else if (Vector3.Distance(cameraPos.transform.position,cameraTarget.transform.position) > movementLimit)
+//			{
+//				GetComponentInChildren<Camera>().transform.Translate(new Vector3(0,0,-1)*rotX*mouseSensitivity* camSensitivity);
+//				GetComponentInChildren<Camera>().transform.Rotate (-rotX,0,0);
+//			}
 		}
 	}
 	internal void updatePlayerHp(int guardDmg)
 	{
-		throw new NotImplementedException();
+		Health += guardDmg;
+		print (guardDmg + "Guard is attacking");
+		//throw new NotImplementedException();
 	}
 	void ControllPlayer()
 	{
@@ -117,10 +139,15 @@ public class PlayerMovement : MonoBehaviour {
 	void fallDamage()
 	{
 	if (rb.useGravity) {
+			print("We do this");
 			Debug.DrawRay (gameObject.transform.position, -Vector3.up * 1.0f, Color.black);
-			if (!(Physics.Raycast (gameObject.transform.position, -transform.up, out hasHit, 0.55f))) {
+			if (Physics.Raycast(gameObject.transform.position, -transform.up, out hasHit, 0.5f))
+				print("WE ARE ON THE FLOOR");
+			if (!(Physics.Raycast (gameObject.transform.position, -transform.up, out hasHit, 0.75f))) {
 				falling = true;
+				print("Falling");
 			} else {
+				print ("Not Falling");
 				falling = false;
 			}
 			if (falling) {
@@ -142,8 +169,6 @@ public class PlayerMovement : MonoBehaviour {
 			fallTimer = 0; 
 		}
 	}
-
-
 
 
 
